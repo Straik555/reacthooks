@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useContext} from "react";
 
-import {BrowserRouter as Redirect} from "react-router-dom";
+import {Redirect} from "react-router-dom";
 
 import useFetch from './../../hooks/UseFetch';
 import useLocalStorage from '../../hooks/UseLocalStorage';
@@ -11,6 +11,8 @@ import {
     Text,
     Fieldset
 } from './style';
+import {CurrentUserContext} from "../../context/currentUser";
+import BackendErrorMessages from './components/BackendErrorMessages';
 
 const Authentication = props => {
     const isLogin = props.match.path === '/login';
@@ -23,12 +25,11 @@ const Authentication = props => {
     const [username, setUsername] = useState('')
     const [isSuccessfullSubmit, setIsSuccessfullSubmit] = useState(false)
     const [{response, isLoading, error}, doFetch] = useFetch(apiUrl)
-    const [token, setToken] = useLocalStorage('token')
+    const [, setToken] = useLocalStorage('token')
+    const [, setCurrentUserState] = useContext(CurrentUserContext)
 
-    console.log('fff', token)
     const handleSubmit = (e) => {
         e.preventDefault()
-        console.log('data', email, password, username);
         const user = isLogin ? {email, password} : {email, password, username};
         doFetch({
             method: 'post',
@@ -44,10 +45,16 @@ const Authentication = props => {
         }
         setToken(response.user.token)
         setIsSuccessfullSubmit(true)
-    }, [response])
+        setCurrentUserState(state => ({
+            ...state,
+            isLoggedIn: true,
+            isLoading: false,
+            currentUser: response.user
+        }))
+    }, [response, setToken, setCurrentUserState])
 
     if(isSuccessfullSubmit) {
-        return <Redirect to='/main' />
+        return <Redirect to='/' />
     }
 
     return (
@@ -62,6 +69,7 @@ const Authentication = props => {
                             {descriptionText}
                         </Text>
                         <form onSubmit={handleSubmit}>
+                            {error && <BackendErrorMessages backendErrors={error.errors} />}
                             {!isLogin && (
                                 <Fieldset>
                                     <input
