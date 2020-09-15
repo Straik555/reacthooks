@@ -5,6 +5,7 @@ import {BrowserRouter as Router} from 'react-router-dom';
 
 import Routes from "../../routes";
 import TopBar from "../Topbar";
+import {CurrentUserProvider} from "../../context/currentUser";
 
 const Banner = styled.div`
   box-sizing: border-box;
@@ -12,12 +13,16 @@ const Banner = styled.div`
 `;
 
 const App = () => {
-    return <Banner>
-        <Router>
-            <TopBar />
-            <Routes />
-        </Router>
-    </Banner>
+    return (
+        <CurrentUserProvider>
+            <Banner>
+                <Router>
+                    <TopBar />
+                    <Routes />
+                </Router>
+            </Banner>
+        </CurrentUserProvider>
+    )
 }
 
 

@@ -1,4 +1,3 @@
-import styled from "styled-components";
 import { generateMedia } from "styled-media-query";
 
 export const customMedia = generateMedia({
@@ -14,5 +13,6 @@ export default {
         titleMenuActive: '#000000',
         titleMenuHover: '#4F4F4F',
         titleWhite: '#ffffff',
+        errorMessages: '#B30F0F',
     }
 }
