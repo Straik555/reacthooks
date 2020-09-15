@@ -5,4 +5,4 @@ const GlobalFeed = () => {
     return <div>GlobalFeed</div>
 }
 
-export default GlobalFeed
+export default GlobalFeed;
