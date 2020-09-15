@@ -27,6 +27,6 @@ export default url => {
                 setIsLoading(false)
                 setError(err.response.data)
             })
-    }, [isLoading, options, url])
+    }, [isLoading, url, options])
     return [{isLoading, response, error}, doFetch]
 }
