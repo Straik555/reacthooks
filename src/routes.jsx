@@ -11,7 +11,7 @@ const Routes = () => {
                 <Route exact path='/main' component={GlobalFeed} />
                 <Route exact path='/login' component={Authentication} />
                 <Route exact path='/register' component={Authentication} />
-                <Route exact path='/article/:slug' component={Article} />
+                <Route exact path='/article' component={Article} />
             </Switch>
     )
 }
