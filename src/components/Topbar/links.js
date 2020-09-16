@@ -1,3 +1,4 @@
+
 export const LINK = [
     {
         name: 'Home',
@@ -12,3 +13,15 @@ export const LINK = [
         route: '/register'
     },
 ];
+
+export const Link = [
+    {
+        name: 'Home',
+        route: '/main'
+    },
+    {
+        name: 'New Post',
+        route: '/article',
+        icon: false
+    },
+]

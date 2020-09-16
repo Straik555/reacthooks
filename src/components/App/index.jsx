@@ -6,6 +6,7 @@ import {BrowserRouter as Router} from 'react-router-dom';
 import Routes from "../../routes";
 import TopBar from "../Topbar";
 import {CurrentUserProvider} from "../../context/currentUser";
+import CurrentUserChecker from "../CurrentUserChecker";
 
 const Banner = styled.div`
   box-sizing: border-box;
@@ -15,12 +16,14 @@ const Banner = styled.div`
 const App = () => {
     return (
         <CurrentUserProvider>
-            <Banner>
-                <Router>
-                    <TopBar />
-                    <Routes />
-                </Router>
-            </Banner>
+            <CurrentUserChecker>
+                <Banner>
+                    <Router>
+                        <TopBar />
+                        <Routes />
+                    </Router>
+                </Banner>
+            </CurrentUserChecker>
         </CurrentUserProvider>
     )
 }

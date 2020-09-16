@@ -1,163 +1,31 @@
-import React, {useState} from "react";
+import React, {useState, useContext, Fragment} from "react";
 
-import {NavLink} from "react-router-dom";
-import styled, {css, createGlobalStyle} from 'styled-components';
-import {Icon} from "react-icons-kit";
-import {cross} from 'react-icons-kit/icomoon/cross';
-import {ic_dehaze} from 'react-icons-kit/md/ic_dehaze'
-
-import {LINK} from "./links";
-import {customMedia} from "../../-styles/theme";
-
-const HeaderBar = styled.div`
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  max-width: 1400px;
-  margin: 0 auto;
-  line-height: 0.5em;
-  
-  ${customMedia.lessThan("tablet")`
-    line-height: 2em;
-  `}
-  }
-`;
-
-const LeftBar = styled.div`
-  width: 50%;
-  
-`;
-
-const Title = styled.h1`
-  font-weight: bold;
-  font-size: 40px;
-  
-  ${({theme}) => css`
-    color: ${theme.colors.titleLogo}
-  `}
-`;
-
-const RightBar = styled.div`
-  width: 50%;  
-  display: flex;
-  justify-content: flex-end;
-`;
-
-const BodyOverflow = createGlobalStyle`
-  body {
-  ${customMedia.lessThan("tablet")`
-    max-height: 100%;
-    overflow:hidden;
-  `}
-  }
-`;
-
-const Overlay = styled.div`
-  display:none;
-  
-  ${customMedia.lessThan("tablet")`
-    display:block;
-    flex: 1;
-  `}
-`;
-
-const MenuList = styled.div`
-   
-  ${customMedia.lessThan("tablet")`
-    width: 250px;
-    background: aliceblue;
-    display: flex;
-    flex-direction: column;
-    padding: 60px 0;
-  `}
-  
-  
- 
-`;
-
-const MenuLink = styled(NavLink)`
-  padding: 0 15px;
-  text-decoration: none;
-  font-size: 20px;
-  font-weight: bold;
-  font-weight: 500;
-  font-style: normal;
-  transition: all .3s;
-  
-  :hover{
-      ${({theme}) => css`
-        color: ${theme.colors.titleMenuHover}
-      `} ;
-    }
-  &.active{
-    ${({theme}) => css`
-    color: ${theme.colors.titleMenuActive}
-  `} 
-  }
-  
-  
-  
-  ${({theme}) => css`
-    color: ${theme.colors.titleMenu}
-  `}
-  
-  `;
-
-const CloseMenu = styled(Icon).attrs({
-    icon: cross,
-    size: 20
-  })`
-  display: none !important;
-  position: absolute;
-  top: 18px;
-  right: 10px;
-  cursor: pointer;
-    
-  ${customMedia.lessThan("tablet")`
-    display: block !important;
-  `}
-`
-const Hamburger = styled(Icon).attrs({
-    icon: ic_dehaze,
-    size: 28,
-})`
-  display: none !important;
-  cursor: pointer;
-  margin-right: 20px;
-  
-  ${customMedia.lessThan("tablet")`
-    display: flex !important;
-  `}
-`;
-
-const MenuWrap = styled.div`
-  display: flex;
-  ${customMedia.lessThan("tablet")`
-    position: fixed;
-    top: 0;
-    right: 0;
-    button: 0;
-    z-index: 100;
-    transition: 0.3s;
-    transform: translateX(1101%);
-    height: 100%;
-  `}
-
- ${({open}) => open && css`
-  ${customMedia.lessThan("tablet")`
-    transform: translateX(0);
-  `}
-`}
-`;
+import {LINK, Link} from "./links";
+import {
+    HeaderBar,
+    LeftBar,
+    Title,
+    RightBar,
+    Hamburger,
+    MenuWrap,
+    BodyOverflow,
+    Overlay,
+    MenuList,
+    CloseMenu,
+    MenuLink,
+    MenuLinkIcon
+} from './style';
+import {CurrentUserContext} from "../../context/currentUser";
 
 const TopBar = () => {
     const [open, setOpen] = useState(false);
+    const [currentUserState] = useContext(CurrentUserContext);
 
     return (
         <HeaderBar>
             <LeftBar>
-                <Title>
-                    conduit
+                <Title to='/'>
+                    Conduit
                 </Title>
             </LeftBar>
             <RightBar>
@@ -168,18 +36,42 @@ const TopBar = () => {
                     <MenuList>
                         <CloseMenu onClick={() => setOpen(false)} />
                         {
-                            LINK.map((item, index) => {
-                                return(
+                            currentUserState.isLoggedIn ?
+                                <Fragment>
+                                    {Link.map((item, index) => {
+                                        return (
+                                            <MenuLink
+                                                key={index}
+                                                to={item.route}
+                                                onClick={() => setOpen(false)}
+                                            >
+                                                {item.icon === false && <MenuLinkIcon/>} {item.name}
+                                            </MenuLink>
+
+                                        )
+                                    })}
                                     <MenuLink
-                                        key={index}
-                                        to={item.route}
-                                        onClick={() => setOpen(false)}
+                                        to={`/profiles/${currentUserState.currentUser.username}`}
                                     >
-                                        {item.name}
+                                        {currentUserState.currentUser.username}
                                     </MenuLink>
+                            </Fragment> :
+                                (
+                                    LINK.map((item, index) => {
+                                        return (
+                                            <MenuLink
+                                                key={index}
+                                                to={item.route}
+                                                onClick={() => setOpen(false)}
+                                            >
+                                                {item.name}
+                                            </MenuLink>
+
+                                        )
+                                    })
                                 )
-                            })
                         }
+
                     </MenuList>
                 </MenuWrap>
             </RightBar>
