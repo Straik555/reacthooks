@@ -9,11 +9,13 @@ export const customMedia = generateMedia({
 
 export default {
     colors: {
-        titleLogo: '#179E00',
+        titleLogo: '#5cb85c',
         titleMenu: '#AAAAAA',
         titleMenuActive: '#000000',
         titleMenuHover: '#4F4F4F',
         titleWhite: '#ffffff',
         errorMessages: '#B30F0F',
+        spanSilver: '#bbb',
+        paginatorHover: '#DADADA'
     }
 }

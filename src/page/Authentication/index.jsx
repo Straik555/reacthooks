@@ -54,7 +54,7 @@ const Authentication = props => {
     }, [response, setToken, setCurrentUserState])
 
     if(isSuccessfullSubmit) {
-        return <Redirect to='/' />
+        return <Redirect to='/main' />
     }
 
     return (

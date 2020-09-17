@@ -7,10 +7,13 @@ import Routes from "../../routes";
 import TopBar from "../Topbar";
 import {CurrentUserProvider} from "../../context/currentUser";
 import CurrentUserChecker from "../CurrentUserChecker";
+import '../../-styles/main.scss';
 
 const Banner = styled.div`
   box-sizing: border-box;
   width: 100%;
+  margin: 0;
+  padding: 0;
 `;
 
 const App = () => {
