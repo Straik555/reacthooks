@@ -26,32 +26,20 @@ const FeedContainer = styled.div`
           line-height: 1.3rem;
       }
       span{
+        width: 50%;
         font-size: 12.8px;
         ${({theme}) => css`
           color: ${theme.colors.spanSilver};
         `}
       }
-      ul{
-        display: flex;
-        justify-content: flex-end;
-        li{
-            list-style: none;
-            font-weight: 300;
-            font-size: .8rem!important;
-            padding: 1px 5px;
-            border: 1px solid #ddd;
-            color: #aaa!important;
-            border-radius: 25px;
-        }
-      }
+      
     }
     
-`;
-
-const Img = styled.img`
-  width: 32px;
-  height: 32px;
-  border-radius: 100%;
+    .preview-link-ul{
+      width: 100%;
+      display: flex;
+    }
+    
 `;
 
 const FeedContainerImg = styled.div`
@@ -63,18 +51,28 @@ const FeedContainerImg = styled.div`
 const FeedContainerUser = styled.div`
   width: 70%;
   display: flex;
+  align-items: flex-start;
+  img{
+    width: 32px;
+    height: 32px;
+    border-radius: 100%;
+  }
 `;
 
 const FeedContainerUsername = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 0 10px;
+  padding-left: 10px;
   
   .username-link{
     text-decoration: none;
     ${({theme}) => css`
       color: ${theme.colors.titleLogo};
     `}
+    
+    :hover{
+      text-decoration: underline;
+    }
   }
   span{
     font-size: 12.8px;
@@ -134,7 +132,6 @@ const FeedImg = styled(Icon).attrs({
 export {
     FeedBanner,
     FeedContainer,
-    Img,
     FeedContainerImg,
     FeedContainerUser,
     FeedContainerUsername,

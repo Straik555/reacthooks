@@ -49,16 +49,19 @@ const GlobalFeedBanner = styled.div`
 `;
 
 const GlobalFeedBannerContainer = styled.div`
-  width: 1000px;
+  width: 1200px;
   display: flex;
+ 
 `;
 
 const GlobalFeedBannerContainerLeft = styled.div`
-  width: 80%;
+  width: 75%;
+  padding: 0 20px;
 `;
 
 const GlobalFeedBannerContainerRight = styled.div`
-  width: 20%;
+  width: 25%;
+  padding: 0 15px;
 `;
 
 export {
