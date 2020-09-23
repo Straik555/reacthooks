@@ -12,7 +12,7 @@ import {
     GlobalFeedBannerContainer,
     GlobalFeedBannerContainerLeft,
     GlobalFeedBannerContainerRight
-} from './styled';
+} from '../GlobalFeed/styled';
 import Paginator from "../../components/Pagination";
 import {getPaginator, limit} from "../../utils/range";
 import {stringify} from "query-string";
@@ -21,11 +21,13 @@ import Loading from "../../components/Loading";
 import ErrorMessage from "../../components/ErrorMessage";
 import FeedToggle from '../../components/FeedToggle';
 
-const GlobalFeed = ({location, match}) => {
+const TagFeed = ({location, match}) => {
+    const tagName = match.params.slug;
     const {offset, currentPage} = getPaginator(location.search);
     const stringifyParams = stringify({
         limit,
-        offset
+        offset,
+        tag: tagName
     })
     const apiUrl = `/articles?${stringifyParams}`;
     const [{response, isLoading, error}, doFetch] = useFetch(apiUrl);
@@ -33,7 +35,7 @@ const GlobalFeed = ({location, match}) => {
 
     useEffect(() => {
         doFetch()
-    }, [doFetch, currentPage])
+    }, [doFetch, currentPage, tagName])
 
     return (
         <GlobalFeedSection>
@@ -46,7 +48,7 @@ const GlobalFeed = ({location, match}) => {
             <GlobalFeedBanner>
                 <GlobalFeedBannerContainer>
                     <GlobalFeedBannerContainerLeft>
-                        <FeedToggle />
+                        <FeedToggle tagName={tagName} />
                         {isLoading && <Loading />}
                         {error && <ErrorMessage />}
                         {!isLoading && response && (
@@ -70,4 +72,4 @@ const GlobalFeed = ({location, match}) => {
     )
 }
 
-export default GlobalFeed;
+export default TagFeed;

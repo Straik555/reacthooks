@@ -12,7 +12,7 @@ import {
     GlobalFeedBannerContainer,
     GlobalFeedBannerContainerLeft,
     GlobalFeedBannerContainerRight
-} from './styled';
+} from '../GlobalFeed/styled';
 import Paginator from "../../components/Pagination";
 import {getPaginator, limit} from "../../utils/range";
 import {stringify} from "query-string";
@@ -21,13 +21,13 @@ import Loading from "../../components/Loading";
 import ErrorMessage from "../../components/ErrorMessage";
 import FeedToggle from '../../components/FeedToggle';
 
-const GlobalFeed = ({location, match}) => {
+const YourFeed = ({location, match}) => {
     const {offset, currentPage} = getPaginator(location.search);
     const stringifyParams = stringify({
         limit,
         offset
     })
-    const apiUrl = `/articles?${stringifyParams}`;
+    const apiUrl = `/articles/feed?${stringifyParams}`;
     const [{response, isLoading, error}, doFetch] = useFetch(apiUrl);
     const url = match.url;
 
@@ -70,4 +70,4 @@ const GlobalFeed = ({location, match}) => {
     )
 }
 
-export default GlobalFeed;
+export default YourFeed;

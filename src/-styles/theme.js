@@ -16,6 +16,9 @@ export default {
         titleWhite: '#ffffff',
         errorMessages: '#B30F0F',
         spanSilver: '#bbb',
-        paginatorHover: '#DADADA'
+        paginatorHover: '#DADADA',
+        popularTags: '#818a91',
+        popularTagsBackground: '#f3f3f3',
+        backgroundArticleUser: '#333',
     }
 }
