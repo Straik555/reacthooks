@@ -21,7 +21,12 @@ export const Link = [
     },
     {
         name: 'New Post',
-        route: '/articles/:slug',
+        route: '/articles/new',
         icon: false
+    },
+    {
+        name: 'Settings',
+        route: '/settings',
+        icon: null
     },
 ]

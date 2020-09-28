@@ -3,6 +3,7 @@ import styled, {css, createGlobalStyle} from 'styled-components';
 import {Icon} from "react-icons-kit";
 import {cross} from 'react-icons-kit/icomoon/cross';
 import {edit} from 'react-icons-kit/fa/edit';
+import {cogs} from 'react-icons-kit/icomoon/cogs'
 import {ic_dehaze} from 'react-icons-kit/md/ic_dehaze'
 import {customMedia} from "../../-styles/theme";
 
@@ -13,7 +14,7 @@ const HeaderBar = styled.div`
   max-width: 1000px;
   margin: 0 auto;
   padding: 10px 20px 20px 20px;
-  }
+  
 `;
 
 const LeftBar = styled.div`
@@ -57,7 +58,7 @@ const Overlay = styled.div`
 `;
 
 const MenuList = styled.div`
-   
+
   ${customMedia.lessThan("tablet")`
     width: 250px;
     background: aliceblue;
@@ -79,6 +80,14 @@ const MenuLink = styled(NavLink)`
   font-style: normal;
   transition: all .3s;
   
+  img{
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    margin-bottom: -10px;
+    margin-right: 5px;
+  }
+  
   :hover{
       ${({theme}) => css`
         color: ${theme.colors.titleMenuHover}
@@ -87,7 +96,7 @@ const MenuLink = styled(NavLink)`
   &.active{
     ${({theme}) => css`
     color: ${theme.colors.titleMenuActive}
-  `} 
+  `}  
   }
   
   
@@ -98,10 +107,14 @@ const MenuLink = styled(NavLink)`
   
   `;
 
-const MenuLinkIcon = styled(Icon).attrs({
+const NewPostIcon = styled(Icon).attrs({
     icon: edit,
     size: 18,
     })``;
+const SettingsIcon = styled(Icon).attrs({
+    icon: cogs,
+    size: 18,
+})``;
 
 const CloseMenu = styled(Icon).attrs({
     icon: cross,
@@ -162,5 +175,6 @@ export {
     MenuList,
     CloseMenu,
     MenuLink,
-    MenuLinkIcon
+    NewPostIcon,
+    SettingsIcon
 }
