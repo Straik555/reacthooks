@@ -1,138 +1,109 @@
-import React, {useEffect} from "react";
-import {Link} from "react-router-dom";
-import styled, {css} from 'styled-components';
+import React, {useContext, useEffect, useState} from "react";
+import {Link, Redirect} from "react-router-dom";
 
 import useFetch from '../../hooks/UseFetch'
 import Loading from "../../components/Loading";
 import ErrorMessage from "../../components/ErrorMessage";
 import TagList from "../../components/TagList";
+import {
+    ArticleBanner,
+    ArticleContainerHeader,
+    ArticleHeader,
+    IconEdit,
+    IconDelete,
+    ArticleHeaderUser,
+    ArticleHeaderUserName,
+    ArticleContainerBottom,
+    ArticleBottom
+} from './style';
+import {CurrentUserContext} from "../../context/currentUser";
 
-const ArticleBanner = styled.div`
-  width: 100%;
-`;
-
-const ArticleContainerHeader = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  
-  ${({theme}) => css`
-    background: ${theme.colors.backgroundArticleUser};
-  `}
-`;
-
-const ArticleHeader = styled.div`
-  width: 1000px;
-  padding: 30px 20px 10px 20px;
-  
-  h1{
-    font-size: 2.8rem;
-    font-weight: 600;
-    ${({theme}) => css`
-      color: ${theme.colors.titleWhite};
-   `}
-  }
-`
-
-const ArticleHeaderUser = styled.div`
-  display: flex;
-  padding: 30px 0 20px 0;
-  align-items: flex-start;
-  
-  img{
-    width: 32px;
-    height: 32px;
-    border-radius: 100%;
-  }
-`;
-
-const ArticleHeaderUserName = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding-left: 10px;
-  .ArticleHeaderUserName{
-    text-decoration: none;
-    line-height: 1rem;
-    ${({theme}) => css`
-      color: ${theme.colors.titleLogo};
-    `}
-    :hover{
-      text-decoration: underline;
-    }
-  }
-  
-  span{
-    font-size: 12.8px;
-    ${({theme}) => css`
-      color: ${theme.colors.spanSilver};
-    `}
-  }
-  
-`;
-
-const ArticleContainerBottom = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: center;
-`;
-
-const ArticleBottom = styled.div`
-  width: 1000px;
-  display: flex;
-  flex-direction: column;
-  padding: 30px 20px;
-  
-  p{
-    font-size: 1.2rem;
-    line-height: 1.8rem;
-    margin-bottom: 2rem;
-  }
-`;
 
 const Article = ({match}) => {
     const slug = match.params.slug;
     const apiUrl = `/articles/${slug}`;
-    const [{response, isLoading, error}, doFetch] = useFetch(apiUrl)
+    const [{
+        response: fetchArticleResponse,
+        isLoading: fetchArticleIsLoading,
+        error: fetchArticleError}, doFetch] = useFetch(apiUrl)
+    const [{response: deleteArticleResponse}, doDeleteArticle] = useFetch(apiUrl)
+    const [currentUserState] = useContext(CurrentUserContext);
+    const [isSuccessfullDelete, setIsSuccessfullDelete] = useState(false)
+
+    const isAuthor = () => {
+        if(!fetchArticleResponse || !currentUserState.isLoggedIn){
+            return false
+        }
+        return fetchArticleResponse.article.author.username === currentUserState.currentUser.username
+    }
+
+    const deleteArticle = () => {
+        doDeleteArticle({
+            method: 'delete'
+        })
+    }
 
     useEffect(() => {
         doFetch()
     }, [doFetch])
 
-    console.log('r', response)
+    useEffect(() => {
+        if(!deleteArticleResponse){
+            return
+        }
+        setIsSuccessfullDelete(true)
+    }, [deleteArticleResponse])
+
+    if(isSuccessfullDelete){
+        return <Redirect to='/' />
+    }
 
     return (
         <ArticleBanner>
             <ArticleContainerHeader>
-                {!isLoading && response && (
+                {!fetchArticleIsLoading && fetchArticleResponse && (
                     <ArticleHeader>
                         <h1>
-                            {response.article.title}
+                            {fetchArticleResponse.article.title}
                         </h1>
                         <ArticleHeaderUser>
-                            <Link to={`/profiles/${response.article.author.username}`}>
-                                <img src={response.article.author.image} />
+                            <Link to={`/profiles/${fetchArticleResponse.article.author.username}`}>
+                                <img src={fetchArticleResponse.article.author.image} alt=''/>
                             </Link>
                             <ArticleHeaderUserName>
-                                <Link to={`/profiles/${response.article.author.username}`} className='ArticleHeaderUserName'>
-                                    {response.article.author.username}
+                                <Link to={`/profiles/${fetchArticleResponse.article.author.username}`} className='ArticleHeaderUserName'>
+                                    {fetchArticleResponse.article.author.username}
                                 </Link>
                                 <span>
-                                    {new Date(response.article.createdAt).toLocaleString()}
+                                    {new Date(fetchArticleResponse.article.createdAt).toLocaleString()}
                                 </span>
                             </ArticleHeaderUserName>
+                            {isAuthor() && (
+                                <span className='article'>
+                                    <Link to={`/articles/${fetchArticleResponse.article.slug}/edit`} className='edit-article'>
+                                        <IconEdit /> Edit Article
+                                    </Link>
+                                    <button
+                                        onClick={deleteArticle}
+                                        className='delete-article'
+                                    >
+                                        <IconDelete /> Delete Article
+                                    </button>
+                                </span>
+                            )}
                         </ArticleHeaderUser>
                     </ArticleHeader>
                 )}
             </ArticleContainerHeader>
             <ArticleContainerBottom>
-                {isLoading && <Loading />}
-                {error && <ErrorMessage />}
-                {!isLoading && response && (
+                {fetchArticleIsLoading && <Loading />}
+                {fetchArticleError && <ErrorMessage />}
+                {!fetchArticleIsLoading && fetchArticleResponse && (
                     <ArticleBottom>
                         <p>
-                            {response.article.body}
+                            {fetchArticleResponse.article.body}
                         </p>
-                        <TagList tags={response.article.tagList} />
+                        <TagList tags={fetchArticleResponse.article.tagList} />
                     </ArticleBottom>
                 )}
             </ArticleContainerBottom>

@@ -13,7 +13,8 @@ import {
     MenuList,
     CloseMenu,
     MenuLink,
-    MenuLinkIcon
+    NewPostIcon,
+    SettingsIcon
 } from './style';
 import {CurrentUserContext} from "../../context/currentUser";
 
@@ -45,7 +46,7 @@ const TopBar = () => {
                                                 to={item.route}
                                                 onClick={() => setOpen(false)}
                                             >
-                                                {item.icon === false && <MenuLinkIcon/>} {item.name}
+                                                {(item.icon === false && <NewPostIcon />) || (item.icon === null && <SettingsIcon />)} {item.name}
                                             </MenuLink>
 
                                         )
@@ -53,6 +54,8 @@ const TopBar = () => {
                                     <MenuLink
                                         to={`/profiles/${currentUserState.currentUser.username}`}
                                     >
+                                        {currentUserState.currentUser.image && <img src={currentUserState.currentUser.image} alt='' />}
+
                                         {currentUserState.currentUser.username}
                                     </MenuLink>
                             </Fragment> :

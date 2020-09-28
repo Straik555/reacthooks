@@ -12,7 +12,7 @@ import {
     Fieldset
 } from './style';
 import {CurrentUserContext} from "../../context/currentUser";
-import BackendErrorMessages from './components/BackendErrorMessages';
+import BackendErrorMessages from '../../components/BackendErrorMessages';
 
 const Authentication = props => {
     const isLogin = props.match.path === '/login';
@@ -26,7 +26,7 @@ const Authentication = props => {
     const [isSuccessfullSubmit, setIsSuccessfullSubmit] = useState(false)
     const [{response, isLoading, error}, doFetch] = useFetch(apiUrl)
     const [, setToken] = useLocalStorage('token')
-    const [, setCurrentUserState] = useContext(CurrentUserContext)
+    const [, dispatch] = useContext(CurrentUserContext)
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -45,13 +45,9 @@ const Authentication = props => {
         }
         setToken(response.user.token)
         setIsSuccessfullSubmit(true)
-        setCurrentUserState(state => ({
-            ...state,
-            isLoggedIn: true,
-            isLoading: false,
-            currentUser: response.user
-        }))
-    }, [response, setToken, setCurrentUserState])
+        dispatch({type: 'SET_AUTHORIZED', payload: response.user})
+
+    }, [response, setToken, dispatch])
 
     if(isSuccessfullSubmit) {
         return <Redirect to='/main' />

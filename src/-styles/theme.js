@@ -20,5 +20,6 @@ export default {
         popularTags: '#818a91',
         popularTagsBackground: '#f3f3f3',
         backgroundArticleUser: '#333',
+        backgroundArticle: '#ccc',
     }
 }
