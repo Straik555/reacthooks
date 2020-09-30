@@ -15,7 +15,7 @@ const ArticleForm = ({onSubmit, error, initialValues}) => {
             title,
             body,
             description,
-            tagList
+            tagList: [tagList]
         }
         onSubmit(article)
     }

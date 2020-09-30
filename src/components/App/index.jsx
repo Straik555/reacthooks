@@ -14,6 +14,7 @@ const Banner = styled.div`
   width: 100%;
   margin: 0;
   padding: 0;
+  font-family: source sans pro,sans-serif;
 `;
 
 const App = () => {

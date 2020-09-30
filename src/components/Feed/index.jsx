@@ -7,11 +7,10 @@ import {
     FeedContainerImg,
     FeedContainerUser,
     FeedContainerUsername,
-    FeedContainerLike,
-    FeedLike,
-    FeedImg
+    FeedContainerLike
 } from './style';
 import TagList from "../TagList";
+import AddToFavorite from "../AddToFavorite";
 
 const Feed = ({articles}) => {
 
@@ -33,10 +32,13 @@ const Feed = ({articles}) => {
                                 </FeedContainerUsername>
                             </FeedContainerUser>
                             <FeedContainerLike>
-                                <FeedLike>
-                                    <FeedImg />
-                                    <span>0</span>
-                                </FeedLike>
+                                <>
+                                    <AddToFavorite
+                                        isFavorited={article.favorited}
+                                        favoriteCount={article.favoritesCount}
+                                        articleSlug={article.slug}
+                                    />
+                                </>
                             </FeedContainerLike>
                         </FeedContainerImg>
                         <Link to={`/articles/${article.slug}`} className='preview-link'>

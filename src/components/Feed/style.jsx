@@ -1,6 +1,4 @@
 import styled, {css} from "styled-components";
-import {heart} from 'react-icons-kit/icomoon/heart'
-import {Icon} from "react-icons-kit";
 
 const FeedBanner = styled.div`
   width: 100%;
@@ -90,52 +88,11 @@ const FeedContainerLike = styled.div`
 
 `;
 
-const FeedLike = styled.div`
-   display: flex;
-   justify-items: baseline;
-   justify-content: space-between;
-   border: 1px solid #5cb85c;
-   padding: 3px 15px;
-   border-radius: 5px;
-   transition: .3s;
-   cursor: pointer;
-   
-   :hover{
-      ${({theme}) => css`
-        background: ${theme.colors.titleLogo};
-      `}
-      * {
-         ${({theme}) => css`
-          color: ${theme.colors.titleWhite};
-        `}
-      }
-    
-   }
-   
-   span{
-    padding: 1px 0 0 4px;
-    ${({theme}) => css`
-      color: ${theme.colors.titleLogo};
-    `}
-`;
-
-const FeedImg = styled(Icon).attrs({
-    icon: heart,
-    size: 12
-})`
-  ${({theme}) => css`
-    color: ${theme.colors.titleLogo};
-  `}
-
-`;
-
 export {
     FeedBanner,
     FeedContainer,
     FeedContainerImg,
     FeedContainerUser,
     FeedContainerUsername,
-    FeedContainerLike,
-    FeedLike,
-    FeedImg
+    FeedContainerLike
 };
