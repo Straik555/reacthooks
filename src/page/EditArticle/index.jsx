@@ -30,7 +30,6 @@ const EditArticle = ({match}) => {
     const [isSuccessfullSubmit, setIsSuccessfullSubmit] = useState(false)
 
     const handleSubmit = (article) => {
-        console.log('article', article)
         doUpdateArticle({
             method: 'put',
             data: {
@@ -51,7 +50,7 @@ const EditArticle = ({match}) => {
             title: fetchArticleResponse.article.title,
             description: fetchArticleResponse.article.description,
             body: fetchArticleResponse.article.body,
-            tagList: fetchArticleResponse.article.tagList
+            tagList: [fetchArticleResponse.article.tagList]
         })
     }, [fetchArticleResponse])
 

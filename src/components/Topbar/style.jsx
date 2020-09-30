@@ -11,7 +11,7 @@ const HeaderBar = styled.div`
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  max-width: 1000px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 10px 20px 20px 20px;
   

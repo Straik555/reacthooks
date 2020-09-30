@@ -10,6 +10,7 @@ import YourFeed from './page/YourFeed';
 import CreateArticle from './page/CreateArticle';
 import EditArticle from './page/EditArticle';
 import Settings from "./page/Settings";
+import UserProfile from './page/UserProfile';
 
 const PageNot = styled.h3`
   text-align: center;
@@ -19,6 +20,8 @@ const Routes = () => {
     return (
             <Switch>
                 <Route exact path="/" render={() => (<Redirect to="/main"/>)}/>
+                <Route path='/profiles/:slug' component={UserProfile} />
+                <Route path='/profiles/:slug/favorites' component={UserProfile} />
                 <Route path='/settings' component={Settings} />
                 <Route path='/articles/new' component={CreateArticle} />
                 <Route path='/articles/:slug/edit' component={EditArticle} />
